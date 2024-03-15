@@ -16,7 +16,7 @@ export default function Header() {
   const arrowRef = useRef<HTMLElement>(null)
   const id = useId()
   const { refs, floatingStyles, middlewareData } = useFloating({
-    middleware: [offset(0), shift(), arrow({ element: arrowRef })],
+    middleware: [offset(10), shift(), arrow({ element: arrowRef })],
     placement: 'bottom-end'
   })
 
