@@ -1,8 +1,9 @@
 /* eslint-disable prettier/prettier */
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { omit } from 'lodash'
+import { useContext } from 'react'
 
 // components
 import { schema, type schemaType } from 'src/utils/rules'
@@ -10,11 +11,16 @@ import Input from 'src/Components/Input'
 import { useMutation } from '@tanstack/react-query'
 import { registerAccount } from 'src/apis/auth.api'
 import { isAxiosUnproccessableEntityError } from 'src/utils/utils'
-import { ResponsiveApi } from 'src/types/utils.type'
+import { ErrorResponsiveApi } from 'src/types/utils.type'
+import { AppContext } from 'src/contexts/app.context'
+import Button from 'src/Components/Button'
+import { path } from 'src/constants/auth'
 
 type FormState = schemaType
 
 export default function Register() {
+  const { setIsAuthenticated } = useContext(AppContext)
+  const navigate = useNavigate()
   const {
     handleSubmit,
     formState: { errors },
@@ -32,27 +38,28 @@ export default function Register() {
   // handler function
   const onSubmit = handleSubmit((data) => {
     registerAccountMutation.mutate(omit(data, ['confirm_password']), {
-      onSuccess: (data) => {
-        console.log(data)
+      onSuccess: () => {
+        setIsAuthenticated(true)
+        navigate(path.login)
       },
       onError: (error) => {
         if (
           isAxiosUnproccessableEntityError<
-            ResponsiveApi<Omit<FormState, 'confirm_password'>>
+            ErrorResponsiveApi<Omit<FormState, 'confirm_password'>>
           >(error)
         ) {
           const formError = error.response?.data.data
 
-          if(formError){
-          Object.keys(formError).forEach((key) => {
-            setError(key as keyof Omit<FormState, 'confirm_password'>, {
-              message:
-                formError[key as keyof Omit<FormState, 'confirm_password'>],
-              type: 'server'
+          if (formError) {
+            Object.keys(formError).forEach((key) => {
+              setError(key as keyof Omit<FormState, 'confirm_password'>, {
+                message:
+                  formError[key as keyof Omit<FormState, 'confirm_password'>],
+                type: 'server'
+              })
             })
-          })
-        }
-        //vi formError co the undefine nen dua vao dieu kien cho dam bao
+          }
+          //vi formError co the undefine nen dua vao dieu kien cho dam bao
 
           // if (formError?.email) {
           //   setError('email', {
@@ -105,15 +112,19 @@ export default function Register() {
               />
 
               <div className='mt-3'>
-                <button className='flex w-full items-center justify-center bg-red-500 py-4 px-2 text-sm text-white uppercase hover:bg-red-600'>
-                  Log In
-                </button>
+                <Button
+                  className='flex w-full items-center justify-center bg-red-500 py-4 px-2 text-sm text-white uppercase hover:bg-red-600'
+                  isLoading={registerAccountMutation.isPending}
+                  disabled={registerAccountMutation.isPending}
+                >
+                  Register
+                </Button>
               </div>
               <div className='mt-8 flex items-center justify-center'>
                 <span className='text-gray-400'>
                   Do you have an account yet?
                 </span>
-                <Link to='/login' className='ml-1 text-red-400'>
+                <Link to={path.login} className='ml-1 text-red-400'>
                   Log In
                 </Link>
               </div>

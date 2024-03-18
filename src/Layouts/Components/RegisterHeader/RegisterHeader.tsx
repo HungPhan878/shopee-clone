@@ -1,8 +1,13 @@
-import { Link } from 'react-router-dom'
+/* eslint-disable prettier/prettier */
+import { Link, useMatch } from 'react-router-dom'
+import { path } from 'src/constants/auth'
 
 // components
 
 export default function ResgisterHeader() {
+  const registerMatch = useMatch(path.register)
+  const isRegisterMatch = Boolean(registerMatch)
+
   return (
     <header className='py-5 flex justify-center'>
       <div className='container px-20 w-full'>
@@ -15,7 +20,9 @@ export default function ResgisterHeader() {
                 </g>
               </svg>
             </Link>
-            <div className='ml-5 text-xl lg:text-2xl'>Log In</div>
+            <div className='ml-5 text-xl lg:text-2xl'>
+              {isRegisterMatch ? 'Register' : 'Log In'}
+            </div>
           </div>
           <div className='text-orange'>What do you need help with ?</div>
         </nav>

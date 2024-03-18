@@ -1,13 +1,17 @@
 /* eslint-disable prettier/prettier */
 import { yupResolver } from '@hookform/resolvers/yup'
 import { useMutation } from '@tanstack/react-query'
+import { useContext } from 'react'
 import { useForm } from 'react-hook-form'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
+import Button from 'src/Components/Button'
 
 // components
 import Input from 'src/Components/Input'
 import { loginAccount } from 'src/apis/auth.api'
-import { ResponsiveApi } from 'src/types/utils.type'
+import { path } from 'src/constants/auth'
+import { AppContext } from 'src/contexts/app.context'
+import { ErrorResponsiveApi } from 'src/types/utils.type'
 import { schema, schemaType } from 'src/utils/rules'
 import { isAxiosUnproccessableEntityError } from 'src/utils/utils'
 
@@ -15,6 +19,8 @@ type FormState = Omit<schemaType, 'confirm_password'>
 const loginSchema = schema.omit(['confirm_password'])
 
 export default function Login() {
+  const { setIsAuthenticated } = useContext(AppContext)
+  const navigate = useNavigate()
   const {
     handleSubmit,
     formState: { errors },
@@ -32,13 +38,14 @@ export default function Login() {
   // handler function
   const onSubmit = handleSubmit((data) => {
     loginAccountMutation.mutate(data, {
-      onSuccess: (data) => {
-        console.log(data)
+      onSuccess: () => {
+        setIsAuthenticated(true)
+        navigate(path.login)
       },
       onError: (error) => {
         if (
           isAxiosUnproccessableEntityError<
-            ResponsiveApi<Omit<FormState, 'confirm_password'>>
+            ErrorResponsiveApi<Omit<FormState, 'confirm_password'>>
           >(error)
         ) {
           const formError = error.response?.data.data
@@ -87,15 +94,19 @@ export default function Login() {
               />
 
               <div className='mt-3'>
-                <button className='flex w-full items-center justify-center bg-red-500 py-4 px-2 text-sm text-white uppercase hover:bg-red-600'>
+                <Button
+                  className='flex w-full items-center justify-center bg-red-500 py-4 px-2 text-sm text-white uppercase hover:bg-red-600'
+                  isLoading={loginAccountMutation.isPending}
+                  disabled={loginAccountMutation.isPending}
+                >
                   Log In
-                </button>
+                </Button>
               </div>
               <div className='mt-8 flex items-center justify-center'>
                 <span className='text-gray-400'>
                   Are you new know to shopee?
                 </span>
-                <Link to='/register' className='ml-1 text-red-400'>
+                <Link to={path.register} className='ml-1 text-red-400'>
                   Register
                 </Link>
               </div>
