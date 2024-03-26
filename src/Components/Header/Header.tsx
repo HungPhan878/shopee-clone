@@ -5,18 +5,19 @@ import { useContext } from 'react'
 
 // components
 import Popover from '../Popover'
-import { logoutAccount } from 'src/apis/auth.api'
+import authApi from 'src/apis/auth.api'
 import { AppContext } from 'src/contexts/app.context'
 import { path } from 'src/constants/auth'
 
 export default function Header() {
   const logoutAccountMutation = useMutation({
-    mutationFn: logoutAccount,
+    mutationFn: authApi.logoutAccount,
     onSuccess: () => {
       setIsAuthenticated(false)
     }
   })
-  const { isAuthenticated, setIsAuthenticated } = useContext(AppContext)
+  const { isAuthenticated, setIsAuthenticated, profile } =
+    useContext(AppContext)
 
   // handler function
   const handleLogoutAccount = () => {
@@ -109,7 +110,7 @@ export default function Header() {
                   className='h-full w-full rounded-full object-cover'
                 />
               </div>
-              <div className=''>Rich</div>
+              <div className=''>{profile?.email}</div>
             </Popover>
           )}
 

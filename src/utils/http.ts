@@ -5,11 +5,7 @@ import { toast } from 'react-toastify'
 
 // components
 import HttpStatusCode from 'src/constants/httpStatusCode.enum'
-import {
-  getAccessTokenFromLs,
-  removeAccessTokenToLs,
-  setAccessTokenToLs
-} from './auth'
+import authLS from './auth'
 import { AuthResponse } from 'src/types/auth.type'
 import { path } from 'src/constants/auth'
 
@@ -24,7 +20,7 @@ export class Http {
         'Content-Type': 'application/json'
       }
     })),
-      (this.access_token = getAccessTokenFromLs())
+      (this.access_token = authLS.getAccessTokenFromLs())
 
     // Add a request interceptor
     this.instance.interceptors.request.use(
@@ -45,14 +41,15 @@ export class Http {
     // Add a response interceptor
     this.instance.interceptors.response.use(
       (response) => {
-        console.log(response)
         const { url } = response.config
+        const data = response.data as AuthResponse
         if (url === path.login || url === path.register) {
-          this.access_token = (response.data as AuthResponse).data.access_token
-          setAccessTokenToLs(this.access_token)
-        } else if (url === '/logout') {
+          this.access_token = data.data.access_token
+          authLS.setAccessTokenToLs(this.access_token)
+          authLS.setProfileToLS(data.data.user)
+        } else if (url === path.logout) {
           this.access_token = ''
-          removeAccessTokenToLs()
+          authLS.removeLs()
         }
 
         return response

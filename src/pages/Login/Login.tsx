@@ -8,18 +8,18 @@ import Button from 'src/Components/Button'
 
 // components
 import Input from 'src/Components/Input'
-import { loginAccount } from 'src/apis/auth.api'
+import authApi from 'src/apis/auth.api'
 import { path } from 'src/constants/auth'
 import { AppContext } from 'src/contexts/app.context'
 import { ErrorResponsiveApi } from 'src/types/utils.type'
 import { schema, schemaType } from 'src/utils/rules'
 import { isAxiosUnproccessableEntityError } from 'src/utils/utils'
 
-type FormState = Omit<schemaType, 'confirm_password'>
-const loginSchema = schema.omit(['confirm_password'])
+type FormState = Pick<schemaType, 'email' | 'password'>
+const loginSchema = schema.pick(['email', 'password'])
 
 export default function Login() {
-  const { setIsAuthenticated } = useContext(AppContext)
+  const { setIsAuthenticated, setProfile } = useContext(AppContext)
   const navigate = useNavigate()
   const {
     handleSubmit,
@@ -32,14 +32,15 @@ export default function Login() {
 
   const loginAccountMutation = useMutation({
     mutationFn: (body: Omit<FormState, 'confirm_password'>) =>
-      loginAccount(body)
+      authApi.loginAccount(body)
   })
 
   // handler function
   const onSubmit = handleSubmit((data) => {
     loginAccountMutation.mutate(data, {
-      onSuccess: () => {
+      onSuccess: (data) => {
         setIsAuthenticated(true)
+        setProfile(data.data.data.user)
         navigate(path.login)
       },
       onError: (error) => {

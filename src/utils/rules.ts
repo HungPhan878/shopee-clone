@@ -61,27 +61,46 @@ export const getRules = (getValues?: UseFormGetValues<any>): Rules => ({
   }
 })
 
-export const schema = yup
-  .object({
-    email: yup
-      .string()
-      .required('Please Enter To The Email Field')
-      .min(6, 'Length over 6 characters')
-      .max(150, 'Length under 150 characters')
-      .email('Invalid Email'),
-    password: yup
-      .string()
-      .required('Please Enter To The Password Field')
-      .min(6, 'Length over 6 characters')
-      .max(160, 'Length under 160 characters'),
-    confirm_password: yup
-      .string()
-      .required('Please Enter To The Email Field')
-      .min(6, 'Length over 6 characters')
-      .max(160, 'Length under 160 characters')
-      .oneOf([yup.ref('password')], 'Password is not exactly')
-    // ref dung de tham chieu den password
+function testPriceMinMax(this: yup.TestContext<yup.AnyObject>) {
+  const { price_min, price_max } = this.parent as {
+    price_min: string
+    price_max: string
+  }
+  if (price_min !== '' && price_max !== '') {
+    return Number(price_max) >= Number(price_min)
+  }
+  return price_min !== '' || price_max !== ''
+}
+
+export const schema = yup.object({
+  email: yup
+    .string()
+    .required('Please Enter To The Email Field')
+    .min(6, 'Length over 6 characters')
+    .max(150, 'Length under 150 characters')
+    .email('Invalid Email'),
+  password: yup
+    .string()
+    .required('Please Enter To The Password Field')
+    .min(6, 'Length over 6 characters')
+    .max(160, 'Length under 160 characters'),
+  confirm_password: yup
+    .string()
+    .required('Please Enter To The Email Field')
+    .min(6, 'Length over 6 characters')
+    .max(160, 'Length under 160 characters')
+    .oneOf([yup.ref('password')], 'Password is not exactly'),
+  // => ref dung de tham chieu den password
+  price_min: yup.string().test({
+    name: 'price-not-allowed',
+    message: 'Price is invalid',
+    test: testPriceMinMax
+  }),
+  price_max: yup.string().test({
+    name: 'price-not-allowed',
+    message: 'Price is invalid',
+    test: testPriceMinMax
   })
-  .required()
+})
 
 export type schemaType = yup.InferType<typeof schema>

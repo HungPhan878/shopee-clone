@@ -9,17 +9,18 @@ import { useContext } from 'react'
 import { schema, type schemaType } from 'src/utils/rules'
 import Input from 'src/Components/Input'
 import { useMutation } from '@tanstack/react-query'
-import { registerAccount } from 'src/apis/auth.api'
+import authApi from 'src/apis/auth.api'
 import { isAxiosUnproccessableEntityError } from 'src/utils/utils'
 import { ErrorResponsiveApi } from 'src/types/utils.type'
 import { AppContext } from 'src/contexts/app.context'
 import Button from 'src/Components/Button'
 import { path } from 'src/constants/auth'
 
-type FormState = schemaType
+type FormState = Pick<schemaType, 'email' | 'password' | 'confirm_password'>
+const registerSchema = schema.pick(['email', 'password', 'confirm_password'])
 
 export default function Register() {
-  const { setIsAuthenticated } = useContext(AppContext)
+  const { setIsAuthenticated, setProfile } = useContext(AppContext)
   const navigate = useNavigate()
   const {
     handleSubmit,
@@ -27,19 +28,20 @@ export default function Register() {
     register,
     setError
   } = useForm<FormState>({
-    resolver: yupResolver(schema)
+    resolver: yupResolver(registerSchema)
   })
 
   const registerAccountMutation = useMutation({
     mutationFn: (body: Omit<FormState, 'confirm_password'>) =>
-      registerAccount(body)
+      authApi.registerAccount(body)
   })
 
   // handler function
   const onSubmit = handleSubmit((data) => {
     registerAccountMutation.mutate(omit(data, ['confirm_password']), {
-      onSuccess: () => {
+      onSuccess: (data) => {
         setIsAuthenticated(true)
+        setProfile(data.data.data.user)
         navigate(path.login)
       },
       onError: (error) => {

@@ -10,6 +10,7 @@ import MainLayout from 'src/Layouts/MainLayout'
 import Profile from 'src/pages/Profile'
 import { AppContext } from 'src/contexts/app.context'
 import { path } from 'src/constants/auth'
+import ProductDetail from 'src/pages/ProductDetail'
 
 function ProtectedRoute() {
   const { isAuthenticated } = useContext(AppContext)
@@ -24,7 +25,7 @@ function RejectedRoute() {
 export default function useRouteElements() {
   const routerElements = useRoutes([
     {
-      path: '/',
+      path: path.home,
       index: true,
       element: (
         <MainLayout>
@@ -33,7 +34,7 @@ export default function useRouteElements() {
       )
     },
     {
-      path: '/',
+      path: path.home,
       element: <ProtectedRoute />,
       children: [
         {
@@ -47,7 +48,7 @@ export default function useRouteElements() {
       ]
     },
     {
-      path: '/',
+      path: path.home,
       element: <RejectedRoute />,
       children: [
         {
@@ -61,7 +62,15 @@ export default function useRouteElements() {
       ]
     },
     {
-      path: '/',
+      path: path.product,
+      element: (
+        <MainLayout>
+          <ProductDetail />
+        </MainLayout>
+      )
+    },
+    {
+      path: path.home,
       element: <RejectedRoute />,
       children: [
         {
