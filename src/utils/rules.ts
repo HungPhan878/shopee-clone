@@ -100,7 +100,20 @@ export const schema = yup.object({
     name: 'price-not-allowed',
     message: 'Price is invalid',
     test: testPriceMinMax
-  })
+  }),
+  name: yup.string().trim().required('Tên sản phẩm là bắt buộc !')
 })
 
+export const userSchema = yup.object({
+  name: yup.string().max(160, 'Max length is 160 characters'),
+  phone: yup.string().max(20, 'Max length is 20 characters'),
+  address: yup.string().max(160, 'Max length is 160 characters'),
+  avatar: yup.string().max(1000, 'Max length is 1000 characters'),
+  date_of_birth: yup.date().max(new Date(), 'Hãy chọn một ngày trong quá khứ'),
+  password: schema.fields['password'],
+  new_password: schema.fields['password'],
+  confirm_password: schema.fields['password']
+})
+
+export type userSchemaType = yup.InferType<typeof userSchema>
 export type schemaType = yup.InferType<typeof schema>

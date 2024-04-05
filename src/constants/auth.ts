@@ -2,9 +2,13 @@ const path = {
   home: '/',
   register: '/register',
   login: '/login',
-  profile: '/profile',
+  user: '/user',
+  profile: '/user/profile',
+  historyPurchase: '/user/purchase',
+  changePassword: '/user/password',
   logout: '/logout',
-  product: ':id'
+  product: ':nameId',
+  cart: '/cart'
 } as const
 
 export { path }

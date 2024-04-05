@@ -62,6 +62,10 @@ export class Http {
 
           toast.error(message)
         }
+
+        if (error.response?.status === HttpStatusCode.Unauthorized) {
+          authLS.removeLs()
+        }
         return Promise.reject(error)
       }
     )

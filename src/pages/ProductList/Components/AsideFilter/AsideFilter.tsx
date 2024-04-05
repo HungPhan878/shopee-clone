@@ -2,19 +2,19 @@
 import { Link, createSearchParams, useNavigate } from 'react-router-dom'
 import { useForm, Controller } from 'react-hook-form'
 import classNames from 'classnames'
+import { omit } from 'lodash'
+import { ObjectSchema } from 'yup'
+import { yupResolver } from '@hookform/resolvers/yup'
 
 // Components
 import { path } from 'src/constants/auth'
 import Button from 'src/Components/Button'
 import { Category } from 'src/types/category'
-import { QueryConfig } from '../../ProductList'
 import InputNumber from 'src/Components/InputNumber'
 import { schema, schemaType } from 'src/utils/rules'
-import { yupResolver } from '@hookform/resolvers/yup'
 import { NoUndefinedField } from 'src/types/utils.type'
-import { ObjectSchema } from 'yup'
 import RatingStars from '../RatingStars'
-import { omit } from 'lodash'
+import { QueryConfig } from 'src/hooks/useQueryConfig'
 
 interface AsideFilterProps {
   categories: Category[]
@@ -184,6 +184,19 @@ export default function AsideFilter({
                   )
                 }}
               />
+              {/* <InputV2
+                control={control}
+                name='price_min'
+                type='number'
+                className='grow'
+                placeholder='₫ TỪ'
+                classNameInput='p-1 w-full outline-none border border-gray-300 focus:border-gray-500 rounded-sm focus:shadow-sm'
+                classNameError='hidden'
+                // {...field}
+                onChange={() => {
+                  trigger('price_max')
+                }}
+              /> */}
 
               <div className='mx-2 mt-2 shrink-0'>-</div>
 
@@ -193,7 +206,6 @@ export default function AsideFilter({
                 render={({ field }) => {
                   return (
                     <InputNumber
-                      // name='text'
                       className='grow'
                       placeholder='₫ ĐẾN'
                       classNameInput='p-1 w-full outline-none border border-gray-300 focus:border-gray-500 rounded-sm focus:shadow-sm'

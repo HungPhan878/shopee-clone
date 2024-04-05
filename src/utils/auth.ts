@@ -3,6 +3,8 @@
 
 import { User } from 'src/types/user.type'
 
+export const localStorageEventTarget = new EventTarget()
+
 const authLS = {
   setAccessTokenToLs(access_token: string) {
     localStorage.setItem('access_token', access_token)
@@ -11,6 +13,9 @@ const authLS = {
   removeLs() {
     localStorage.removeItem('access_token')
     localStorage.removeItem('profile')
+    // Tạo ra một event lắng nghe khi token hết hạn.
+    const removeLS = new Event('removeLS')
+    localStorageEventTarget.dispatchEvent(removeLS)
   },
 
   getAccessTokenFromLs() {
