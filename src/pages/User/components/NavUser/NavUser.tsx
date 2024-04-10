@@ -1,11 +1,16 @@
 /* eslint-disable prettier/prettier */
 import classNames from 'classnames'
+import { useContext } from 'react'
 import { Link, NavLink } from 'react-router-dom'
 
 // components
 import { path } from 'src/constants/auth'
+import { AppContext } from 'src/contexts/app.context'
+import { getAvatarName } from 'src/utils/utils'
 
 export default function NavUser() {
+  const { profile } = useContext(AppContext)
+
   return (
     <div>
       <div className='flex items-center border-b border-b-gray-200 py-4'>
@@ -14,14 +19,14 @@ export default function NavUser() {
           className='h-12 w-12 flex-shrink-0 overflow-hidden rounded-full border border-black/10'
         >
           <img
-            src='https://th.bing.com/th/id/OIP.Z-vfTZPXyrE9p8PCY1FB8AHaEn?w=338&h=180&c=7&r=0&o=5&pid=1.7'
-            alt='Porche'
+            src={getAvatarName(profile?.avatar)}
+            alt={profile?.name}
             className='h-full w-full object-cover'
           />
         </Link>
         <div className='flex-grow pl-4 truncate'>
           <div className='mb-1  font-semibold text-gray-600 truncate'>
-            HungPhan@gmail.com
+            {profile?.email}
           </div>
           <Link
             to={path.profile}

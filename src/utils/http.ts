@@ -8,13 +8,14 @@ import HttpStatusCode from 'src/constants/httpStatusCode.enum'
 import authLS from './auth'
 import { AuthResponse } from 'src/types/auth.type'
 import { path } from 'src/constants/auth'
+import config from 'src/constants/config'
 
 export class Http {
   instance: AxiosInstance
   private access_token: string
   constructor() {
     ;(this.instance = axios.create({
-      baseURL: 'https://api-ecom.duthanhduoc.com/',
+      baseURL: config.baseURL,
       timeout: 10000,
       headers: {
         'Content-Type': 'application/json'
@@ -58,9 +59,13 @@ export class Http {
         if (error.response?.status !== HttpStatusCode.UnprocessableEntity) {
           const data: any | undefined = error.response?.data
 
-          const message = data.message || error.message
+          const message = data?.message || error.message
 
-          toast.error(message)
+          if (message === 'Network Error') {
+            toast.error('Dung lượng ảnh quá lớn')
+          } else {
+            toast.error(message)
+          }
         }
 
         if (error.response?.status === HttpStatusCode.Unauthorized) {

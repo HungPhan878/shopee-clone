@@ -9,6 +9,7 @@ import { path } from 'src/constants/auth'
 import authApi from 'src/apis/auth.api'
 import { useQueryClient, useMutation } from '@tanstack/react-query'
 import { purchasesStatus } from 'src/constants/purchases'
+import { getAvatarName } from 'src/utils/utils'
 
 export default function NavHeader() {
   const { isAuthenticated, setIsAuthenticated, profile } =
@@ -108,7 +109,7 @@ export default function NavHeader() {
         >
           <div className='mr-2 h-6 w-6 flex-shrink-0'>
             <img
-              src='https://cf.shopee.vn/file/vn-50009109-edc81af5e63d0fe77d3505ee4f1d8f32_xhdpi'
+              src={getAvatarName(profile?.avatar)}
               alt='avatar'
               className='h-full w-full rounded-full object-cover'
             />

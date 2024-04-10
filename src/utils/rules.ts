@@ -72,6 +72,15 @@ function testPriceMinMax(this: yup.TestContext<yup.AnyObject>) {
   return price_min !== '' || price_max !== ''
 }
 
+const handleExtendPasswordYup = (refString: string) => {
+  return yup
+    .string()
+    .required('Please Enter To The Email Field')
+    .min(6, 'Length over 6 characters')
+    .max(160, 'Length under 160 characters')
+    .oneOf([yup.ref(refString)], 'Password is not exactly')
+}
+
 export const schema = yup.object({
   email: yup
     .string()
@@ -110,9 +119,24 @@ export const userSchema = yup.object({
   address: yup.string().max(160, 'Max length is 160 characters'),
   avatar: yup.string().max(1000, 'Max length is 1000 characters'),
   date_of_birth: yup.date().max(new Date(), 'Hãy chọn một ngày trong quá khứ'),
-  password: schema.fields['password'],
-  new_password: schema.fields['password'],
-  confirm_password: schema.fields['password']
+  password: schema.fields['password'] as yup.StringSchema<
+    string,
+    yup.AnyObject,
+    undefined,
+    ''
+  >,
+  new_password: schema.fields['password'] as yup.StringSchema<
+    string,
+    yup.AnyObject,
+    undefined,
+    ''
+  >,
+  confirm_password: handleExtendPasswordYup('new_password') as yup.StringSchema<
+    string,
+    yup.AnyObject,
+    undefined,
+    ''
+  >
 })
 
 export type userSchemaType = yup.InferType<typeof userSchema>

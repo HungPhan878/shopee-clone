@@ -13,7 +13,7 @@ import ProductDetail from 'src/pages/ProductDetail'
 import Cart from 'src/pages/Cart'
 import CartLayout from 'src/Layouts/CartLayout'
 import UserLayout from 'src/pages/User/layouts/UserLayout'
-import ChangePurchase from 'src/pages/User/pages/ChangePurchase'
+import ChangePurchase from 'src/pages/User/pages/ChangePassword'
 import HistoryPurchase from 'src/pages/User/pages/HistoryPurchase'
 import ProfileUser from 'src/pages/User/pages/ProfileUser'
 
