@@ -4,7 +4,7 @@ import { createSearchParams, useNavigate } from 'react-router-dom'
 
 // components
 import { path } from 'src/constants/auth'
-import { QueryConfig } from '../../ProductList'
+import { QueryConfig } from 'src/hooks/useQueryConfig'
 
 // Rules
 // index 0 : indexStar 0 - 4 yellow stars

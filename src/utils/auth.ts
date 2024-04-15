@@ -10,8 +10,13 @@ const authLS = {
     localStorage.setItem('access_token', access_token)
   },
 
+  setRefreshTokenToLs(refresh_token: string) {
+    localStorage.setItem('refresh_token', refresh_token)
+  },
+
   removeLs() {
     localStorage.removeItem('access_token')
+    localStorage.removeItem('refresh_token')
     localStorage.removeItem('profile')
     // Tạo ra một event lắng nghe khi token hết hạn.
     const removeLS = new Event('removeLS')
@@ -20,6 +25,10 @@ const authLS = {
 
   getAccessTokenFromLs() {
     return localStorage.getItem('access_token') || ''
+  },
+
+  getRefreshTokenFromLs() {
+    return localStorage.getItem('refresh_token') || ''
   },
 
   // get, set profile(user) to LS

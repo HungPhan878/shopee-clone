@@ -7,6 +7,7 @@ import axios, { AxiosError } from 'axios'
 import HttpStatusCode from 'src/constants/httpStatusCode.enum'
 import config from 'src/constants/config'
 import noImage from '../assets/images/noImage.svg'
+import { ErrorResponsiveApi } from 'src/types/utils.type'
 
 export function isAxiosError<T>(error: unknown): error is AxiosError<T> {
   return axios.isAxiosError(error)
@@ -18,6 +19,27 @@ export function isAxiosUnproccessableEntityError<FormError>(
   return (
     isAxiosError(error) &&
     error.response?.status === HttpStatusCode.UnprocessableEntity
+  )
+}
+
+// Lỗi 401
+export function isAxiosUnauthorizedError<UnauthorizedError>(
+  error: unknown
+): error is AxiosError<UnauthorizedError> {
+  return (
+    isAxiosError(error) &&
+    error.response?.status === HttpStatusCode.Unauthorized
+  )
+}
+
+// refresh token hết hạn
+export function isAxiosExpiredTokenError<UnauthorizedError>(
+  error: unknown
+): error is AxiosError<UnauthorizedError> {
+  return (
+    isAxiosUnauthorizedError<
+      ErrorResponsiveApi<{ message: string; name: string }>
+    >(error) && error.response?.data?.data?.name === 'EXPIRED_TOKEN'
   )
 }
 

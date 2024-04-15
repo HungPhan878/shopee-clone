@@ -15,7 +15,7 @@ interface Props extends InputHTMLAttributes<HTMLInputElement> {
 }
 
 export default function Input({
-  className = 'relative',
+  className,
   classNameInput = 'p-3 rounded w-full border-2 border-gray-200',
   classNameError = 'text-red-600 text-sm h-5',
   classNameEye = 'absolute top-[45%] right-[10px] w-6 h-6 -translate-y-3/4 cursor-pointer',
@@ -41,7 +41,7 @@ export default function Input({
   }
 
   return (
-    <div className={className}>
+    <div className={'relative ' + className}>
       <input
         id={name}
         className={classNameInput}

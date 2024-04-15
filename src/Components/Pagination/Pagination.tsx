@@ -2,9 +2,9 @@
 import classNames from 'classnames'
 import { Link, createSearchParams } from 'react-router-dom'
 import { path } from 'src/constants/auth'
+import { QueryConfig } from 'src/hooks/useQueryConfig'
 
 // components
-import { QueryConfig } from 'src/pages/ProductList/ProductList'
 
 interface PaginationProps {
   queryConfig: QueryConfig
@@ -15,7 +15,6 @@ const RANGE = 2
 
 export default function Pagination({ queryConfig, pageSize }: PaginationProps) {
   const page = Number(queryConfig.page)
-
 
   function renderPagination() {
     let dotAfter = false

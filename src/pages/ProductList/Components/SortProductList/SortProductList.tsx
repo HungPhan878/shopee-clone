@@ -4,11 +4,11 @@ import { omit } from 'lodash'
 /* eslint-disable prettier/prettier */
 
 // components
-import { QueryConfig } from '../../ProductList'
 import { sortBy } from 'src/constants/product'
 import { path } from 'src/constants/auth'
 import { ProductListConfig } from 'src/types/product.type'
 import { order as orderContants } from 'src/constants/product'
+import { QueryConfig } from 'src/hooks/useQueryConfig'
 
 interface SortProps {
   queryConfig: QueryConfig
