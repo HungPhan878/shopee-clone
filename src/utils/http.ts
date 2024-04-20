@@ -31,9 +31,10 @@ export class Http {
       baseURL: config.baseURL,
       timeout: 10000,
       headers: {
-        'Content-Type': 'application/json',
-        'expire-access-token': 10,
-        'expire-refresh-token': 60 * 60
+        'Content-Type': 'application/json'
+        // gửi lên headers reset lại time cho acc và ref
+        // 'expire-access-token': 10,
+        // 'expire-refresh-token': 60 * 60
       }
     })),
       (this.access_token = authLS.getAccessTokenFromLs()),
@@ -145,6 +146,7 @@ export class Http {
     )
   }
   private handleRefreshToken() {
+    // console.log('refresh------')
     return this.instance
       .post<RefreshTokenResponse>(URL_REFRESH_TOKEN, {
         refresh_token: this.refresh_token

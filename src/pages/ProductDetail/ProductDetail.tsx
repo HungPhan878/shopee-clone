@@ -4,6 +4,8 @@ import DOMPurify from 'dompurify'
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { toast } from 'react-toastify'
+import { Helmet } from 'react-helmet-async'
+import { convert } from 'html-to-text'
 
 // components
 import ProductRating from 'src/Components/ProductRating'
@@ -20,6 +22,7 @@ import QuantityController from 'src/Components/QuantityController'
 import purchasesApi from 'src/apis/purchase.api'
 import { purchasesStatus } from 'src/constants/purchases'
 import { path } from 'src/constants/auth'
+import { useTranslation } from 'react-i18next'
 
 export default function ProductDetail() {
   const { nameId } = useParams()
@@ -30,6 +33,7 @@ export default function ProductDetail() {
   const [buyCount, setBuyCount] = useState<number>(1)
   const queryClient = useQueryClient()
   const navigate = useNavigate()
+  const { t } = useTranslation('product')
 
   // get product item
   const { data } = useQuery({
@@ -159,6 +163,18 @@ export default function ProductDetail() {
 
   return (
     <div className='bg-gray-200 py-6'>
+      <Helmet>
+        <title>Shopee Clone | {productItemData.name}</title>
+        <meta
+          name='description'
+          content={convert(productItemData.description, {
+            limits: {
+              maxInputLength: 150
+            }
+          })}
+        />
+      </Helmet>
+
       <div className='container'>
         <div className='bg-white p-4 shadow'>
           <div className='grid grid-cols-12 gap-9'>
@@ -290,7 +306,7 @@ export default function ProductDetail() {
                 />
 
                 <div className='ml-6 text-sm text-gray-500'>
-                  {productItemData.quantity} sản phẩm có sẵn
+                  {productItemData.quantity} {t('available')}
                 </div>
               </div>
 

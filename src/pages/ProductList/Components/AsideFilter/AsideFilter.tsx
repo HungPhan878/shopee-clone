@@ -5,6 +5,7 @@ import classNames from 'classnames'
 import { omit } from 'lodash'
 import { ObjectSchema } from 'yup'
 import { yupResolver } from '@hookform/resolvers/yup'
+import { useTranslation } from 'react-i18next'
 
 // Components
 import { path } from 'src/constants/auth'
@@ -29,6 +30,7 @@ export default function AsideFilter({
   categories,
   queryConfig
 }: AsideFilterProps) {
+  const { t } = useTranslation(['home'])
   const { category } = queryConfig
   const {
     control,
@@ -100,7 +102,7 @@ export default function AsideFilter({
             </g>
           </g>
         </svg>
-        All Products
+        {t('aside filter.all categories')}
       </Link>
       <div className='my-4 h-[1px] bg-gray-300' />
       <ul>
@@ -157,7 +159,7 @@ export default function AsideFilter({
             />
           </g>
         </svg>
-        Search Filters
+        {t('aside filter.filter search')}
       </Link>
       <div className='my-4'>
         <div className='py-5'>
