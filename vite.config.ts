@@ -10,7 +10,8 @@ export default defineConfig({
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   plugins: [react()] as any,
   test: {
-    environment: 'jsdom'
+    environment: 'jsdom',
+    setupFiles: path.resolve(__dirname, './vitest.setup.js')
   },
   server: {
     port: 3000

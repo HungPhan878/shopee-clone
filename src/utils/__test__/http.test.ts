@@ -15,7 +15,7 @@ describe('http axios', () => {
     'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2MGRmYWU3YTcxYTZjMDI5ZGVjMzI1YiIsImVtYWlsIjoiaHVuZ3BoYW5AZ21haWwuY29tIiwicm9sZXMiOlsiVXNlciJdLCJjcmVhdGVkX2F0IjoiMjAyNC0wNC0xOVQwNTozNTo1MS45MjNaIiwiaWF0IjoxNzEzNTA0OTUxLCJleHAiOjE3MTM1MDQ5NTJ9.JKQOIf4Q69o2mmUQHDuerXKSEJUf9tBRT3MxITkWs5s'
 
   const refresh_token_1000000s =
-    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2MGRmYWU3YTcxYTZjMDI5ZGVjMzI1YiIsImVtYWlsIjoiaHVuZ3BoYW5AZ21haWwuY29tIiwicm9sZXMiOlsiVXNlciJdLCJjcmVhdGVkX2F0IjoiMjAyNC0wNC0xOVQwNTozNTo1MS45MjNaIiwiaWF0IjoxNzEzNTA0OTUxLCJleHAiOjE3MTQ1MDQ5NTF9.8TO50lPWiZxmmK7U6k4e4jFqxrqujvLyLB0nAVbTNMI'
+    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2MGRmYWU3YTcxYTZjMDI5ZGVjMzI1YiIsImVtYWlsIjoiaHVuZ3BoYW5AZ21haWwuY29tIiwicm9sZXMiOlsiVXNlciJdLCJjcmVhdGVkX2F0IjoiMjAyNC0wNC0yM1QwNzo1MToyNy41ODFaIiwiaWF0IjoxNzEzODU4Njg3LCJleHAiOjE3MjM4NTg2OTZ9.TqAl0D4UGeoBbhlLBK_oJqMB9zJI01N3ig6ecZeXQ_0'
 
   it('call api product', async () => {
     const res = await http.get('products')
@@ -25,7 +25,7 @@ describe('http axios', () => {
 
   it('get profile', async () => {
     await http.post('login', {
-      email: 'Hungphanhung8@gmail.com',
+      email: 'Hungphanhung8@gmail.com'
     })
 
     // need accessToken moi request duoc

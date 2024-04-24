@@ -1,3 +1,4 @@
+import { Helmet } from 'react-helmet-async'
 import { Link } from 'react-router-dom'
 import { path } from 'src/constants/auth'
 
@@ -5,6 +6,10 @@ import { path } from 'src/constants/auth'
 export default function NotFound() {
   return (
     <section>
+      <Helmet>
+        <title>Not Found Page</title>
+        <meta name='description' content='Đăng nhập vào dự án Shopee Clone' />
+      </Helmet>
       <div className='bg-white text-white'>
         <div className='flex h-screen'>
           <div className='m-auto text-center'>

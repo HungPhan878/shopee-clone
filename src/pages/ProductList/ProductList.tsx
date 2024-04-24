@@ -8,6 +8,7 @@ import { ProductListConfig } from 'src/types/product.type'
 import Pagination from 'src/Components/Pagination'
 import categoriesApi from 'src/apis/categories.api'
 import useQueryConfig from 'src/hooks/useQueryConfig'
+import { Helmet } from 'react-helmet-async'
 
 export default function ProductList() {
   const queryConfig = useQueryConfig()
@@ -37,6 +38,10 @@ export default function ProductList() {
 
   return (
     <div className='bg-gray-200 py-6'>
+      <Helmet>
+        <title>Shopee Clone | Trang Chủ</title>
+        <meta name='description' content='Đăng nhập vào dự án Shopee Clone' />
+      </Helmet>
       <div className='container'>
         <div className='grid grid-cols-12 gap-6'>
           <div className='col-span-3 justify-self-stretch'>

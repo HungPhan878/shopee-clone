@@ -105,6 +105,7 @@ export default function Login() {
                   className='flex w-full items-center justify-center bg-red-500 py-4 px-2 text-sm text-white uppercase hover:bg-red-600'
                   isLoading={loginAccountMutation.isPending}
                   disabled={loginAccountMutation.isPending}
+                  type='submit'
                 >
                   Log In
                 </Button>

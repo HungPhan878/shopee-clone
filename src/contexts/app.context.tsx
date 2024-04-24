@@ -18,7 +18,8 @@ interface AppContextInterface {
   reset: () => void
 }
 
-const initialAppContext: AppContextInterface = {
+// Tạo f để khi qua createWrapper có thể set lại acc
+export const getInitialAppContext: () => AppContextInterface = () => ({
   isAuthenticated: Boolean(authLS.getAccessTokenFromLs()),
   setIsAuthenticated: () => null,
   profile: authLS.getProfileFromLS(),
@@ -26,18 +27,27 @@ const initialAppContext: AppContextInterface = {
   extensionPurchases: [],
   setExtensionPurchases: () => null,
   reset: () => null
-}
+})
+
+const initialAppContext = getInitialAppContext()
 
 const AppContext = createContext<AppContextInterface>(initialAppContext)
 
-const AppProvider = ({ children }: { children: React.ReactNode }) => {
+const AppProvider = ({
+  children,
+  // Thêm tham số 2 để khi qua createWrapper bọc app lại để custom lại defaultValue
+  defaultValue = initialAppContext
+}: {
+  children: React.ReactNode
+  defaultValue?: AppContextInterface
+}) => {
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(
-    initialAppContext.isAuthenticated
+    defaultValue.isAuthenticated
   )
-  const [profile, setProfile] = useState<User | null>(initialAppContext.profile)
+  const [profile, setProfile] = useState<User | null>(defaultValue.profile)
   const [extensionPurchases, setExtensionPurchases] = useState<
     extensionPurchases[]
-  >(initialAppContext.extensionPurchases)
+  >(defaultValue.extensionPurchases)
 
   const reset = () => {
     setIsAuthenticated(false)

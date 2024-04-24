@@ -85,9 +85,9 @@ export const schema = yup.object({
   email: yup
     .string()
     .required('Please Enter To The Email Field')
+    .email('Invalid Email')
     .min(6, 'Length over 6 characters')
-    .max(150, 'Length under 150 characters')
-    .email('Invalid Email'),
+    .max(150, 'Length under 150 characters'),
   password: yup
     .string()
     .required('Please Enter To The Password Field')
