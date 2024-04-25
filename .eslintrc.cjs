@@ -12,6 +12,7 @@ module.exports = {
     "plugin:@typescript-eslint/recommended",
     "eslint-config-prettier",
     "prettier",
+    "plugin:storybook/recommended",
     "plugin:storybook/recommended"
   ],
   plugins: ["prettier"],
