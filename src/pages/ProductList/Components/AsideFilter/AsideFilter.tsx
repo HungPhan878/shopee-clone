@@ -37,6 +37,7 @@ export default function AsideFilter({
     handleSubmit,
     trigger,
     // watch,
+    reset,
     formState: { errors }
   } = useForm<FormData>({
     defaultValues: {
@@ -57,6 +58,7 @@ export default function AsideFilter({
   }
 
   const handleRemoveAll = () => {
+    reset()
     navigate({
       pathname: path.home,
       search: createSearchParams(

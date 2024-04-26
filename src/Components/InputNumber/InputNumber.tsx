@@ -17,7 +17,7 @@ const InputNumber = forwardRef<HTMLInputElement, InputNumberProps>(
       classNameInput = 'p-3 rounded w-full border-2 border-gray-200',
       classNameError = 'text-red-600 text-sm h-5',
       errorMessage,
-      value = '',
+      value ,
       onChange,
       ...rest
     },
@@ -42,7 +42,7 @@ const InputNumber = forwardRef<HTMLInputElement, InputNumberProps>(
           {...rest}
           onChange={handleChange}
           ref={ref}
-          value={value || localValue}
+          value={value === undefined ? localValue : value}
         />
         <p className={classNameError}>{errorMessage}</p>
       </div>
