@@ -15,7 +15,6 @@ import ErrorBoundary from './Components/ErrorBoundary/ErrorBoundary.tsx'
 function App() {
   const routerElements = useRouteElements()
   const { reset } = useContext(AppContext)
-
   useEffect(() => {
     localStorageEventTarget.addEventListener('removeLS', reset)
 

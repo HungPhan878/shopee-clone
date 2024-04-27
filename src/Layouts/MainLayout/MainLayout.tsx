@@ -1,4 +1,5 @@
-import React from 'react'
+import React, { memo } from 'react'
+import { Outlet } from 'react-router-dom'
 
 // components
 
@@ -9,12 +10,17 @@ interface Props {
   children?: React.ReactNode
 }
 
-export default function RegisterLayout({ children }: Props) {
+function MainLayoutInner({ children }: Props) {
+  console.log('main layout')
   return (
     <div>
       <Header />
       <main>{children}</main>
+      <Outlet />
       <Footer />
     </div>
   )
 }
+
+const MainLayout = memo(MainLayoutInner)
+export default MainLayout

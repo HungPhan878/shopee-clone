@@ -2,8 +2,10 @@
 import { Outlet } from 'react-router-dom'
 import NavUser from '../../components/NavUser'
 import { Helmet } from 'react-helmet-async'
+import { memo } from 'react'
 
-export default function RegisterLayout() {
+function UserLayoutInner() {
+  console.log('user')
   return (
     <div className='bg-neutral-100 py-16 text-sm text-gray-600'>
       <Helmet>
@@ -26,3 +28,6 @@ export default function RegisterLayout() {
     </div>
   )
 }
+
+const UserLayout = memo(UserLayoutInner)
+export default UserLayout

@@ -1,20 +1,21 @@
 /* eslint-disable prettier/prettier */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { InputHTMLAttributes, useState } from 'react'
-import { UseFormRegister } from 'react-hook-form'
+import { FieldPath, FieldValues, UseFormRegister } from 'react-hook-form'
 
-interface Props extends InputHTMLAttributes<HTMLInputElement> {
+interface Props<TFieldValues extends FieldValues>
+  extends InputHTMLAttributes<HTMLInputElement> {
   className?: string
   classNameInput?: string
   classNameError?: string
   classNameEye?: string
-  register?: UseFormRegister<any>
-  name: string
+  register?: UseFormRegister<TFieldValues>
+  name: FieldPath<TFieldValues>
   rules?: object
   errorMessage?: string
 }
 
-export default function Input({
+export default function Input<TFieldValues extends FieldValues>({
   className,
   classNameInput = 'p-3 rounded w-full border-2 border-gray-200',
   classNameError = 'text-red-600 text-sm h-5',
@@ -24,7 +25,7 @@ export default function Input({
   rules,
   errorMessage,
   ...rest
-}: Props) {
+}: Props<TFieldValues>) {
   const [openEye, setOpenEye] = useState(false)
   const registerInput = register ? { ...register(name, rules) } : {}
 
